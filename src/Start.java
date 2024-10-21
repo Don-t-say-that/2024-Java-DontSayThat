@@ -1,8 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Start extends JFrame {
 
@@ -33,6 +32,16 @@ public class Start extends JFrame {
         startbtn.setFocusPainted(false); // 포커스 테두리 제거
         panel.add(startbtn);
 
+        // 버튼에 ActionListener 추가
+        startbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Start 창을 닫고 Login 창을 엽니다.
+                setVisible(false); // 현재 창 닫기
+                new Login(); // Login 창 열기
+            }
+        });
+
         // 패널의 레이아웃 설정 및 프레임에 추가
         panel.setSize(1000, 700); // 패널 크기 설정
         panel.setLayout(null); // 패널 레이아웃을 null로 설정
@@ -43,6 +52,7 @@ public class Start extends JFrame {
         setSize(1000, 700);
         setResizable(false);
         setLocationRelativeTo(null);
+        panel.setBackground(Color.decode("#E0FBFC"));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
