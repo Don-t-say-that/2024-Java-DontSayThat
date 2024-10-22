@@ -3,29 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class RoundedPanel extends JPanel {
-    private Color backgroundColor;
-    private int cornerRadius = 25; // 둥글기 정도 설정
-
-    public RoundedPanel(int radius, Color bgColor) {
-        super();
-        cornerRadius = radius;
-        backgroundColor = bgColor;
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-        Graphics2D graphics = (Graphics2D) g;
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // 배경 색상 그리기
-        graphics.setColor(backgroundColor);
-        graphics.fillRoundRect(0, 0, getWidth(), getHeight(), arcs.width, arcs.height); // 둥근 사각형 그리기
-    }
-}
-
 public class Login extends JFrame {
     Font font = new Font("WagleWagle",Font.PLAIN, 110);
     RoundedPanel panel = new RoundedPanel(25, new Color(61, 90, 128));
@@ -92,5 +69,28 @@ public class Login extends JFrame {
 
     public static void main(String[] args) {
         new Login(); // 프로그램 시작
+    }
+}
+
+class RoundedPanel extends JPanel {
+    private Color backgroundColor;
+    private int cornerRadius = 25; // 둥글기 정도 설정
+
+    public RoundedPanel(int radius, Color bgColor) {
+        super();
+        cornerRadius = radius;
+        backgroundColor = bgColor;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Dimension arcs = new Dimension(cornerRadius, cornerRadius);
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // 배경 색상 그리기
+        graphics.setColor(backgroundColor);
+        graphics.fillRoundRect(0, 0, getWidth(), getHeight(), arcs.width, arcs.height); // 둥근 사각형 그리기
     }
 }
