@@ -9,8 +9,8 @@ public class Start extends JFrame {
     JPanel panel = new JPanel();
     JButton startbtn = new RoundedButton("Click", 25); // radius 25인 버튼 생성
     JLabel title = new JLabel("Dont Say \"That\"",JLabel.CENTER);
-    Font font = new Font("WagleWagle",Font.ITALIC, 110);
-    Font font1 = new Font("WagleWagle",Font.ITALIC, 130);
+    Font font = new Font("WagleWagle",Font.PLAIN, 110);
+    Font font1 = new Font("WagleWagle",Font.PLAIN, 130);
     public Start() {
 
         // 폰트 설정

@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class Menu extends JFrame {
@@ -41,6 +43,13 @@ public class Menu extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null); // 화면 중앙 배치
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        gameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SelectSubject();
+            }
+        });
     }
 
     public static void main(String[] args) {
