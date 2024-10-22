@@ -27,7 +27,7 @@ class RoundedPanel extends JPanel {
 }
 
 public class Login extends JFrame {
-    Font font = new Font("WagleWagle",Font.ITALIC, 110);
+    Font font = new Font("WagleWagle",Font.PLAIN, 110);
     RoundedPanel panel = new RoundedPanel(25, new Color(61, 90, 128));
     JLabel loginLabel = new JLabel("Login");
     JLabel userLabel = new JLabel("아이디 입력:");
