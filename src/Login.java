@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Login extends JFrame {
     Font font = new Font("WagleWagle",Font.PLAIN, 110);
@@ -11,8 +15,8 @@ public class Login extends JFrame {
     JTextField userText = new JTextField();
     JLabel passLabel = new JLabel("Password : ");
     JPasswordField passText = new JPasswordField();
-    JButton loginButton = new JButton("로그인");
-    JButton signUpButton = new JButton("회원가입");
+    JButton loginButton = new RoundedButton("로그인",10);
+    JButton signUpButton = new RoundedButton("회원가입",10);
     public Login() {
 
         // 패널
@@ -42,14 +46,38 @@ public class Login extends JFrame {
         loginButton.setBounds(235, 190, 100, 30);
         loginButton.setBackground(Color.decode("#98C1D9"));
         loginButton.setForeground(Color.BLACK);
+        loginButton.setBorderPainted(false); // 버튼 테두리 제거
+        loginButton.setFocusPainted(false); // 포커스 테두리 제거
 
         // 버튼에 ActionListener 추가
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Start 창을 닫고 Login 창을 엽니다.
-                setVisible(false); // 현재 창 닫기
-                new Menu(); // Login 창 열기
+                String member_id = userText.getText();
+                String member_pw = new String(passText.getPassword());
+
+                // DB에서 사용자 인증
+                Connection conn = DBConnection.getConnection();
+                if (conn != null) {
+                    try {
+                        String query = "SELECT * FROM membertable WHERE member_id = ? AND member_pw = ?";
+                        PreparedStatement pstmt = conn.prepareStatement(query);
+                        pstmt.setString(1, member_id);
+                        pstmt.setString(2, member_pw);
+                        ResultSet rs = pstmt.executeQuery();
+
+                        if (rs.next()) {
+                            JOptionPane.showMessageDialog(null, "로그인 성공!");
+                            // 로그인이 성공하면 메인 메뉴로 이동하는 로직 추가 가능
+                            new Menu();
+                            setVisible(false); // 현재 창 닫기
+                        } else {
+                            JOptionPane.showMessageDialog(null, "로그인 실패! 아이디 또는 비밀번호를 확인하세요.");
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
 
