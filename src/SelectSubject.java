@@ -1,14 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class SelectSubject extends JFrame {
 
     Font font = new Font("WagleWagle", Font.PLAIN, 80);
     Font font1 = new Font("WagleWagle", Font.PLAIN, 60);
+    Font font2 = new Font("WagleWagle", Font.PLAIN, 30);
     RoundedPanel panel = new RoundedPanel(25, new Color(61, 90, 128));
     JLabel subjectLabel = new JLabel("<html><body><center>랜덤 주제는...<br>두구두구두..구..두..ㄱ..</center></body></html>"); // 줄바꿈 위해서 html문법 사용
     JLabel randomSubjectLabel = new JLabel(); // 랜덤 주제를 표시할 라벨
+    JButton nextBtn = new RoundedButton("다음으로", 25);
 
     public SelectSubject() {
 
@@ -29,9 +33,19 @@ public class SelectSubject extends JFrame {
         randomSubjectLabel.setHorizontalAlignment(SwingConstants.CENTER); // 텍스트 가로 중앙 정렬
         randomSubjectLabel.setVerticalAlignment(SwingConstants.CENTER); // 텍스트 세로 중앙 정렬
 
+        // nextBtn 설정
+        nextBtn.setFont(font2);
+        nextBtn.setSize(120, 40); // 버튼 크기 설정
+        nextBtn.setLocation(845, 600); // 버튼 위치 설정
+        nextBtn.setBackground(Color.decode("#BFDBE4")); // 버튼 배경색 설정
+        nextBtn.setForeground(Color.decode("#3D5A80")); // 버튼 글자색 설정
+        nextBtn.setBorderPainted(false); // 버튼 테두리 제거
+        nextBtn.setFocusPainted(false); // 포커스 테두리 제거
+
         panel.add(randomSubjectLabel); // 랜덤 주제를 표시할 라벨을 패널에 추가
 
         add(subjectLabel);
+        add(nextBtn);
         add(panel);
 
         // 프레임 설정
@@ -43,6 +57,13 @@ public class SelectSubject extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         randomSubject(); // 창을 열 때 랜덤 주제 설정
+
+        nextBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new explainRule();
+            }
+        });
     }
 
     void randomSubject() {
