@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class SignUp extends JFrame{
 
@@ -55,11 +58,44 @@ public class SignUp extends JFrame{
         add(SignupLabel);
 
         signUpButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
-                // Start 창을 닫고 Login 창을 엽니다.
+                String member_id = userText.getText();
+                String member_pw = new String(passText.getPassword());
+
+                // DB에 사용자 정보 저장
+                Connection conn = DBConnection.getConnection();
+                if (conn != null) {
+                    try {
+                        String query = "INSERT INTO membertable (member_id, member_pw) VALUES (?, ?)";
+                        PreparedStatement pstmt = conn.prepareStatement(query);
+                        pstmt.setString(1, member_id);
+                        pstmt.setString(2, member_pw);
+
+                        int rows = pstmt.executeUpdate(); // 실행 후 영향받은 행 수 반환
+                        if (rows > 0) {
+                            JOptionPane.showMessageDialog(null, "회원가입 성공!");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "회원가입 실패!");
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "이미 존재하는 사용자입니다.");
+                    }
+                }
                 setVisible(false); // 현재 창 닫기
                 new Login(); // Login 창 열기
+            }
+        });
+
+        loginCheckButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String id = userText.getText();
+                if (id.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "아이디를 입력해주세요.");
+                } else if (DBConnection.isIdDuplicate(id)) {
+                    JOptionPane.showMessageDialog(null, "이미 존재하는 아이디입니다.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다.");
+                }
             }
         });
 
