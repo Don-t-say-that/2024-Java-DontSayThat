@@ -51,7 +51,10 @@ public class explainRule extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false); // 현재 창 닫기
-                new Standby();
+                String username = JOptionPane.showInputDialog("사용자 이름을 입력하세요:");
+                if (username != null && !username.trim().isEmpty()) {
+                    new ChatRoom(username); // 채팅방 열기
+                }
             }
         });
 
