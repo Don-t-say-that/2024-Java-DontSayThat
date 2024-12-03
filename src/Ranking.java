@@ -126,7 +126,7 @@ public class Ranking extends JFrame {
     // 데이터베이스에서 랭킹 데이터 가져오기
     private List<RankingEntry> fetchRankingData() {
         List<RankingEntry> entries = new ArrayList<>();
-        String query = "SELECT member_id, score FROM rankingtable ORDER BY score DESC LIMIT 10"; // 상위 10개 랭킹을 가져오는 쿼리문
+        String query = "SELECT member_id, score FROM rankingtable ORDER BY score DESC LIMIT 5"; // 상위 10개 랭킹을 가져오는 쿼리문
 
         try (Connection conn = DBConnection.getConnection();  // DBConnection 클래스 사용
              Statement stmt = conn.createStatement();
