@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Ranking extends JFrame {
     private JLabel title = new JLabel("랭킹", SwingConstants.CENTER);
-    private JButton restart = new RoundedButton("다시 시작하기", 25);
+    private JButton restart = new RoundedButton("처음으로", 25);
     private Font font = new Font("WagleWagle", Font.PLAIN, 70);
     private Font font2 = new Font("Pretendard", Font.PLAIN, 18);
     private Font font3 = new Font("WagleWagle", Font.PLAIN, 30);
@@ -21,7 +21,6 @@ public class Ranking extends JFrame {
         // 제목 설정
         title.setFont(font);
         title.setForeground(Color.decode("#98C1D9"));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
         add(title, BorderLayout.NORTH);
 
         restart.setBackground(Color.decode("#3D5A80")); // 버튼 배경색 설정
@@ -69,12 +68,12 @@ public class Ranking extends JFrame {
             int yPosition = 60;
             for (int i = 0; i < 5; i++) {
                 RankingEntry entry = rankingEntries.get(i);
-                drawRankingEntry(g2, 200, yPosition, 600, 70, String.valueOf(i + 1), entry.getName(), entry.getScore(), "#6DAEDB");
+                drawRankingEntry(g2, 200, yPosition, 600, 70, String.valueOf(i + 1), entry.getName(), entry.getScore());
                 yPosition += 90;
             }
         }
 
-        private void drawRankingEntry(Graphics2D g2, int x, int y, int width, int height, String rank, String name, String score, String color) {
+        private void drawRankingEntry(Graphics2D g2, int x, int y, int width, int height, String rank, String name, String score) {
             g2.setColor(Color.decode("#4583D4"));
             g2.fillRoundRect(x, y, width, height, 30, 30);
 
@@ -98,8 +97,8 @@ public class Ranking extends JFrame {
 
     // RankingEntry 클래스 (랭킹 데이터 저장용)
     class RankingEntry {
-        private String name;
-        private String score;
+        static String name;
+        static String score;
 
         public RankingEntry(String name, String score) {
             this.name = name;
@@ -114,13 +113,6 @@ public class Ranking extends JFrame {
             return score;
         }
 
-        public int getScoreValue() {
-            try {
-                return Integer.parseInt(score.replace("점", "")); // 점수를 정수로 변환
-            } catch (NumberFormatException e) {
-                return 0; // 변환 실패 시 0으로 처리
-            }
-        }
     }
 
     // 데이터베이스에서 랭킹 데이터 가져오기
