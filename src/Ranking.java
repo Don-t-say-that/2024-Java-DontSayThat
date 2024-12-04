@@ -68,12 +68,12 @@ public class Ranking extends JFrame {
             int yPosition = 60;
             for (int i = 0; i < 5; i++) {
                 RankingEntry entry = rankingEntries.get(i);
-                drawRankingEntry(g2, 200, yPosition, 600, 70, String.valueOf(i + 1), entry.getName(), entry.getScore(), "#6DAEDB");
+                drawRankingEntry(g2, 200, yPosition, 600, 70, String.valueOf(i + 1), entry.getName(), entry.getScore());
                 yPosition += 90;
             }
         }
 
-        private void drawRankingEntry(Graphics2D g2, int x, int y, int width, int height, String rank, String name, String score, String color) {
+        private void drawRankingEntry(Graphics2D g2, int x, int y, int width, int height, String rank, String name, String score) {
             g2.setColor(Color.decode("#4583D4"));
             g2.fillRoundRect(x, y, width, height, 30, 30);
 
@@ -97,8 +97,8 @@ public class Ranking extends JFrame {
 
     // RankingEntry 클래스 (랭킹 데이터 저장용)
     class RankingEntry {
-        private String name;
-        private String score;
+        static String name;
+        static String score;
 
         public RankingEntry(String name, String score) {
             this.name = name;
@@ -113,13 +113,6 @@ public class Ranking extends JFrame {
             return score;
         }
 
-        public int getScoreValue() {
-            try {
-                return Integer.parseInt(score.replace("점", "")); // 점수를 정수로 변환
-            } catch (NumberFormatException e) {
-                return 0; // 변환 실패 시 0으로 처리
-            }
-        }
     }
 
     // 데이터베이스에서 랭킹 데이터 가져오기
