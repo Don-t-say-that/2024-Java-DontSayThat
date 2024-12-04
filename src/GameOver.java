@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameOver extends JFrame {
     private Font font = new Font("WagleWagle", Font.PLAIN, 110);
@@ -38,6 +40,22 @@ public class GameOver extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new Start();
+            }
+        });
+
+        seeRankingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new Ranking();
+            }
+        });
     }
 
     class PaintPanel extends JPanel {
