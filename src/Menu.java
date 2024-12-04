@@ -47,7 +47,7 @@ public class Menu extends JFrame {
         gameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                setVisible(false);
                 new explainRule();
             }
         });
