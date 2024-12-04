@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Ranking extends JFrame {
     private JLabel title = new JLabel("랭킹", SwingConstants.CENTER);
-    private JButton restart = new RoundedButton("다시 시작하기", 25);
+    private JButton restart = new RoundedButton("처음으로", 25);
     private Font font = new Font("WagleWagle", Font.PLAIN, 70);
     private Font font2 = new Font("Pretendard", Font.PLAIN, 18);
     private Font font3 = new Font("WagleWagle", Font.PLAIN, 30);
@@ -21,7 +21,6 @@ public class Ranking extends JFrame {
         // 제목 설정
         title.setFont(font);
         title.setForeground(Color.decode("#98C1D9"));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
         add(title, BorderLayout.NORTH);
 
         restart.setBackground(Color.decode("#3D5A80")); // 버튼 배경색 설정
