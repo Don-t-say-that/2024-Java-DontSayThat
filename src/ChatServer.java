@@ -45,8 +45,16 @@ public class ChatServer {
                 }
 
                 String message;
-                while ((message = in.readLine()) != null) {
-                    broadcast(message);
+                while ((message = in.readLine()) != null) {     // 한줄씩 읽어옴
+                    if (message.startsWith("/forbidden ")) {
+                        String[] parts = message.split(" ", 2);
+                        if (parts.length == 2) {
+                            forbiddenWords.put(this.name, parts[1]);    // map에 저장
+                        }
+                    } else {
+                        broadcast(message);
+                        checkForbiddenWords(message,this.name);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
