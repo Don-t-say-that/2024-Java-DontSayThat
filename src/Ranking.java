@@ -1,12 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ranking extends JFrame {
     private JLabel title = new JLabel("랭킹", SwingConstants.CENTER);
-    private JButton restart = new RoundedButton("처음으로", 25);
+    private JButton restartButton = new RoundedButton("처음으로", 25);
     private Font font = new Font("WagleWagle", Font.PLAIN, 70);
     private Font font2 = new Font("Pretendard", Font.PLAIN, 18);
     private Font font3 = new Font("WagleWagle", Font.PLAIN, 30);
@@ -23,17 +25,17 @@ public class Ranking extends JFrame {
         title.setForeground(Color.decode("#98C1D9"));
         add(title, BorderLayout.NORTH);
 
-        restart.setBackground(Color.decode("#3D5A80")); // 버튼 배경색 설정
-        restart.setForeground(Color.WHITE); // 버튼 글자색 설정
-        restart.setBorderPainted(false); // 버튼 테두리 제거
-        restart.setFocusPainted(false); // 포커스 테두리 제거
+        restartButton.setBackground(Color.decode("#3D5A80")); // 버튼 배경색 설정
+        restartButton.setForeground(Color.WHITE); // 버튼 글자색 설정
+        restartButton.setBorderPainted(false); // 버튼 테두리 제거
+        restartButton.setFocusPainted(false); // 포커스 테두리 제거
 
         // restart 버튼을 우측 하단에 배치하기 위한 패널 생성
         JPanel restartPanel = new JPanel();
         restartPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));  // 오른쪽 정렬
         restartPanel.setBackground(Color.decode("#E0FBFC")); // 배경색을 부모 패널과 동일
-        restart.setFont(font3);
-        restartPanel.add(restart);  // 버튼을 패널에 추가
+        restartButton.setFont(font3);
+        restartPanel.add(restartButton);  // 버튼을 패널에 추가
 
         add(restartPanel, BorderLayout.SOUTH);  // 패널을 남쪽에 추가
 
@@ -47,6 +49,15 @@ public class Ranking extends JFrame {
         setSize(1000, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new Start();
+            }
+        });
+
     }
 
     // 커스텀 패널 클래스
@@ -96,8 +107,8 @@ public class Ranking extends JFrame {
 
     // RankingEntry 클래스 (랭킹 데이터 저장용)
     class RankingEntry {
-        static String name;
-        static String score;
+        String name;
+        String score;
 
         public RankingEntry(String name, String score) {
             this.name = name;
@@ -117,7 +128,11 @@ public class Ranking extends JFrame {
     // 데이터베이스에서 랭킹 데이터 가져오기
     private List<RankingEntry> fetchRankingData() {
         List<RankingEntry> entries = new ArrayList<>();
-        String query = "SELECT member_id, score FROM rankingtable ORDER BY score DESC LIMIT 5"; // 상위 10개 랭킹을 가져오는 쿼리문
+        String query = "SELECT member_id, MAX(score) AS score " +
+                "FROM rankingtable " +
+                "GROUP BY member_id " +
+                "ORDER BY score DESC " +
+                "LIMIT 10;";
 
         try (Connection conn = DBConnection.getConnection();  // DBConnection 클래스 사용
              Statement stmt = conn.createStatement();
