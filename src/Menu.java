@@ -10,8 +10,10 @@ public class Menu extends JFrame {
     JPanel panel = new JPanel();
     JButton gameButton = new JButton(gameImg);
     JButton rankingButton = new JButton(rankingImg);
+    String member_id;
 
-    public Menu() {
+    public Menu(String member_id) {
+        this.member_id = member_id;
 
         // 패널 레이아웃 설정
         panel.setLayout(new GridBagLayout());   // 레이아웃 생성자
@@ -47,12 +49,12 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                new explainRule();
+                new explainRule(member_id);
             }
         });
     }
 
     public static void main(String[] args) {
-        new Menu(); // 프로그램 시작
+        new Menu("hyewon"); // 프로그램 시작
     }
 }

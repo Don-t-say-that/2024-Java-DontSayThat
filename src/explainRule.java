@@ -13,8 +13,9 @@ public class explainRule extends JFrame {
     JLabel explainRule = new JLabel("<html><body><center>앞서 뽑은 랜덤 주제에 대해 2분동안 어쩌구 저쩌구 그것입니다.<br>그리고 어쩌구 저쩌구 그럼 좋아요. " +
             "게임을 시작할까요? </center></body></html>"); // 게임 설명
     JButton nextBtn = new RoundedButton("다음으로", 25);
-
-    public explainRule() {
+    String member_id;
+    public explainRule(String member_id) {
+        this.member_id = member_id;
 
         setLayout(null); // 위치 수동 지정
 
@@ -51,7 +52,7 @@ public class explainRule extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false); // 현재 창 닫기
-                new setForbiddenword();
+                new setForbiddenword(member_id);
             }
         });
 
@@ -71,6 +72,6 @@ public class explainRule extends JFrame {
 
     }
     public static void main(String[] args) {
-        new explainRule();
+        new explainRule("hyewon");
     }
 }

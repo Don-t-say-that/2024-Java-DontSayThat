@@ -40,7 +40,7 @@ public class GamePlay extends JFrame {
     private static Clip clip;
     private static boolean isPlaying = false;
 
-    public GamePlay(String username) {
+    public GamePlay(String username, String forbiddenWord) {
 
         // 메인 패널 설정(배경 사진)
         mainContainer.setBounds(0, 0, 1000, 700);
@@ -120,7 +120,7 @@ public class GamePlay extends JFrame {
         inputField.addActionListener(e -> sendMessage(username));
 
         // 서버 연결
-        connectToServer(username);
+        connectToServer(username, forbiddenWord);
 
         // 프레임 설정
         setVisible(true);
@@ -129,16 +129,15 @@ public class GamePlay extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    private void connectToServer(String username) {
+    private void connectToServer(String username,String forbiddenWord) {
         try {
             Socket socket = new Socket("localhost", 8000);
             out = new PrintWriter(socket.getOutputStream(), true);
 
             // 서버로 사용자 이름과 금칙어 전송
             out.println(username);
-            out.println("/forbidden " + JOptionPane.showInputDialog(this, "상대방의 금칙어를 입력하세요:"));
-
-            // 서버에서 메시지 읽기
+            out.println("/forbidden " + forbiddenWord);
+          
             new Thread(() -> {
                 try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                     String message;
