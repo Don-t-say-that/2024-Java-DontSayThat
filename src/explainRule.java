@@ -6,12 +6,23 @@ import java.util.Random;
 
 public class explainRule extends JFrame {
 
-    Font font = new Font("WagleWagle", Font.PLAIN, 80);
-    Font font1 = new Font("WagleWagle", Font.PLAIN, 25);
+    Font font = new Font("./", Font.PLAIN, 80);
+    Font font1 = new Font("WagleWagle", Font.BOLD, 30);
     RoundedPanel panel = new RoundedPanel(25, new Color(61, 90, 128));
     JLabel title = new JLabel("게임 설명");
-    JLabel explainRule = new JLabel("<html><body><center>앞서 뽑은 랜덤 주제에 대해 2분동안 어쩌구 저쩌구 그것입니다.<br>그리고 어쩌구 저쩌구 그럼 좋아요. " +
-            "게임을 시작할까요? </center></body></html>"); // 게임 설명
+    JLabel explainRule = new JLabel(
+            "<html>" +
+                    "<body>" +
+                        "<center>" +
+                        "\"DON'T SAY THAT\"은 2인용 금칙어 게임입니다! <br><br>" +
+                        "재밌는 랜덤 주제에 맞게 2분 동안 자유롭게 대화를 나누세요. " +
+                        "하지만 상대방이 정한 금칙어를 말하는 순간 점수를 잃게 됩니다! <br>주제 안에서 대화를 이어가면서 금칙어는 조심! <br>" +
+                        "채팅에서 승리하여 최고의 점수를 노려보세요! <br><br>" +
+                        "자, 준비되셨나요? 즐거운 게임 되세요! \uD83C\uDFAE✨\"" +
+                        "</center>" +
+                    "</body>" +
+                "</html>"
+    ); // 게임 설명
     JButton nextBtn = new RoundedButton("다음으로", 25);
     String member_id;
     public explainRule(String member_id) {
