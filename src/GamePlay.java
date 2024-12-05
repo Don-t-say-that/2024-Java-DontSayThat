@@ -154,6 +154,9 @@ public class GamePlay extends JFrame {
             Socket socket = new Socket("localhost", 8000);
             out = new PrintWriter(socket.getOutputStream(), true);
 
+            // 서버로 사용자 이름과 금칙어 전송
+            out.println(username);
+            out.println("/forbidden " + JOptionPane.showInputDialog(this, "상대방의 금칙어를 입력하세요:"));
             // 서버로 메시지 읽기
             new Thread(() -> {
                 try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
