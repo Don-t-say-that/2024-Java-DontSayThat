@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class GameOver extends JFrame {
     private Font font = new Font("WagleWagle", Font.PLAIN, 110);
@@ -11,12 +12,45 @@ public class GameOver extends JFrame {
     private ImageIcon seeRankingIcon = new ImageIcon("./img/SeeRanking.png");
     JButton returnButton = new JButton(returnIcon);
     JButton seeRankingButton = new JButton(seeRankingIcon);
-    private String player1Name = "dauyul";
-    private String player2Name = "hyewon4052";
-    private int player1Score = 860;
-    private int player2Score = 700;
+    private String WinnerName;
+    private String LoserName;
+    private int WinnerScore;
+    private int LoserScore;
 
-    public GameOver() {
+    private Map<String, Integer> scores;
+
+    public GameOver(Map<String, Integer> scores) {
+        this.scores = scores;
+
+        if (scores.size() == 2) {
+            // for문으로 모든 플레이어를 순회
+            Map.Entry<String, Integer> firstPlayer = null;
+            Map.Entry<String, Integer> secondPlayer = null;
+
+            int i = 0;
+            for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+                if (i == 0) {
+                    firstPlayer = entry;
+                } else {
+                    secondPlayer = entry;
+                }
+                i++;
+            }
+
+            if (firstPlayer.getValue() > secondPlayer.getValue()) {
+                WinnerName = firstPlayer.getKey();
+                WinnerScore = firstPlayer.getValue();
+                LoserName = secondPlayer.getKey();
+                LoserScore = secondPlayer.getValue();
+            } else {
+                WinnerName = secondPlayer.getKey();
+                WinnerScore = secondPlayer.getValue();
+                LoserName = firstPlayer.getKey();
+                LoserScore = firstPlayer.getValue();
+            }
+        }
+
+
         // Frame 레이아웃 설정
         setLayout(new BorderLayout());
         getContentPane().setBackground(Color.decode("#E0FBFC"));
@@ -64,13 +98,13 @@ public class GameOver extends JFrame {
 
             // Win Section
             JLabel winLabel = createLabel("Win", Color.GREEN, 108, 75, 100, 50);
-            JLabel winName = createLabel(player1Name, Color.WHITE, 410, 75, 200, 50);
-            JLabel winScore = createLabel(player1Score + "점", Color.WHITE, 800, 75, 100, 50);
+            JLabel winName = createLabel(WinnerName, Color.WHITE, 410, 75, 200, 50);
+            JLabel winScore = createLabel(WinnerScore + "점", Color.WHITE, 800, 75, 100, 50);
 
             // Lose Section
             JLabel loseLabel = createLabel("Lose", Color.RED, 103, 215, 100, 50);
-            JLabel loseName = createLabel(player2Name, Color.WHITE, 410, 215, 200, 50);
-            JLabel loseScore = createLabel(player2Score + "점", Color.WHITE, 800, 215, 100, 50);
+            JLabel loseName = createLabel(LoserName, Color.WHITE, 410, 215, 200, 50);
+            JLabel loseScore = createLabel(LoserScore + "점", Color.WHITE, 800, 215, 100, 50);
 
             // Add labels
             add(winLabel);
@@ -122,7 +156,4 @@ public class GameOver extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        new GameOver();
-    }
 }
