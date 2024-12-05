@@ -55,7 +55,7 @@ public class setForbiddenword extends JFrame {
                 setVisible(false);
                 String username = JOptionPane.showInputDialog("사용자 이름을 입력하세요:");
                 if (username != null && !username.trim().isEmpty()) {
-                    new GamePlay(username); // 채팅방 열기
+                    new ChatRoom(username); // 채팅방 열기
                 }
             }
         });
