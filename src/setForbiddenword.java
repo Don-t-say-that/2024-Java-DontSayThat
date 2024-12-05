@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class setForbiddenword extends JFrame {
 
@@ -46,6 +48,17 @@ public class setForbiddenword extends JFrame {
         setLocationRelativeTo(null);  // 화면 중앙에 배치
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
+        completeWordBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                String username = JOptionPane.showInputDialog("사용자 이름을 입력하세요:");
+                if (username != null && !username.trim().isEmpty()) {
+                    new GamePlay(username); // 채팅방 열기
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
