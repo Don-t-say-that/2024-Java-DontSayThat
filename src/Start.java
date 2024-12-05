@@ -8,23 +8,23 @@ public class Start extends JFrame {
 
     JPanel panel = new JPanel();
     JButton startbtn = new RoundedButton("Click", 25); // radius 25인 버튼 생성
-    JLabel title = new JLabel("Dont Say \"That\"",JLabel.CENTER);
-    Font font = new Font("WagleWagle",Font.PLAIN, 110);
+    JLabel title = new JLabel("DON'T SAY \"THAT\"",JLabel.CENTER);
+    Font font = new Font("WagleWagle",Font.PLAIN, 95);
     Font font1 = new Font("WagleWagle",Font.PLAIN, 130);
     public Start() {
 
         // 폰트 설정
         title.setFont(font1);
-        title.setSize(615, 110);
-        title.setLocation(192,220);
+        title.setSize(715, 110);
+        title.setLocation(160,220);
         title.setForeground(Color.decode("#3D5A80"));
         // title을 panel에 추가
         panel.add(title);
 
         // 버튼 설정
         startbtn.setFont(font);
-        startbtn.setSize(380, 100); // 버튼 크기 설정
-        startbtn.setLocation(308, 470); // 버튼 위치 설정
+        startbtn.setSize(350, 90); // 버튼 크기 설정
+        startbtn.setLocation(308, 430); // 버튼 위치 설정
 
         startbtn.setBackground(Color.decode("#3D5A80")); // 버튼 배경색 설정
         startbtn.setForeground(Color.WHITE); // 버튼 글자색 설정

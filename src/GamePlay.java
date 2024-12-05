@@ -9,12 +9,7 @@ import java.net.Socket;
 
 public class GamePlay extends JFrame {
     private PrintWriter out;
-    private static int timeRemaining = 120; // 초기 타이머 시간 (초 단위)
     private Image backgroundImage = new ImageIcon("./img/gameBackground.png").getImage();
-    private final String[] topics = {
-            "학교 생활", "급식", "TMI", "좋아하는 것", "과거", "미래", "현재", "이상형", "영화", "데이트장소",
-            "동물", "여행", "과목", "상대방", "현재 기분", "크리스마스", "연말", "직업", "장래희망", "밈"
-    };
 
     // 메인 배경화면 패널
     BackgroundPanel mainContainer = new BackgroundPanel(backgroundImage);
@@ -50,10 +45,6 @@ public class GamePlay extends JFrame {
         // 메인 패널 설정(배경 사진)
         mainContainer.setBounds(0, 0, 1000, 700);
         mainContainer.setLayout(null);
-
-        // 랜덤 주제 선택
-        String topic = topics[(int) (Math.random() * topics.length)];
-        this.randomTopic.setText(topic);
 
         setLayout(null);
 
@@ -131,24 +122,6 @@ public class GamePlay extends JFrame {
         // 서버 연결
         connectToServer(username, forbiddenWord);
 
-        // 배경음악 시작
-        startBackgroundMusic();
-
-        // 타이머 구현
-        Timer timer = new Timer(1000, e -> {
-            if (timeRemaining > 0) {
-                timeRemaining--;
-                int minutes = timeRemaining / 60;
-                int seconds = timeRemaining % 60;
-                timerLabel.setText(String.format("남은 시간: %02d:%02d", minutes, seconds));
-            } else {
-                ((Timer) e.getSource()).stop();
-                timerLabel.setText("시간 종료! 게임을 종료합니다.");
-                stopBackgroundMusic(); // 게임 종료 시 배경음악 멈추기
-            }
-        });
-        timer.start();
-
         // 프레임 설정
         setVisible(true);
         setSize(1000, 700);
@@ -164,12 +137,25 @@ public class GamePlay extends JFrame {
             // 서버로 사용자 이름과 금칙어 전송
             out.println(username);
             out.println("/forbidden " + forbiddenWord);
-            // 서버로 메시지 읽기
+          
             new Thread(() -> {
                 try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                     String message;
                     while ((message = in.readLine()) != null) {
-                        chatArea.append(message + "\n");
+                        if(message.startsWith("randomTopic")) {
+                            randomTopic.setText(message.replace("randomTopic ", "주제 : "));
+                        }
+                        else if(message.startsWith("Timer")) {
+                            if(message.equals("Timer 종료"))
+                                timerLabel.setText("게임 종료!");
+                            else {
+                                int time = Integer.parseInt(message.replace("Timer ", ""));
+                                int min = time / 60;
+                                int sec = time % 60;
+                                timerLabel.setText(String.format("남은 시간: %02d:%02d", min, sec));
+                            }
+                        }
+                        else chatArea.append(message + "\n");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -178,6 +164,7 @@ public class GamePlay extends JFrame {
 
             // 접속 메시지 전송
             out.println(username + "님이 입장하셨습니다.");
+
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "서버에 연결할 수 없습니다.", "Error", JOptionPane.ERROR_MESSAGE);
