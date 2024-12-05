@@ -1,8 +1,14 @@
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 public class GamePlay extends JFrame {
+    private PrintWriter out;
     private static int timeRemaining = 120; // 초기 타이머 시간 (초 단위)
     private Image backgroundImage = new ImageIcon("./img/gameBackground.png").getImage();
     private final String[] topics = {
@@ -15,7 +21,7 @@ public class GamePlay extends JFrame {
 
     // 폰트
     Font font1 = new Font("WagleWagle", Font.PLAIN, 45);
-    Font font2 = new Font("맑은 고딕", Font.PLAIN, 25);
+    Font font2 = new Font("맑은 고딕", Font.PLAIN, 15);
 
     // 상단 타이머 패널
     JPanel topPanel = new JPanel();
@@ -35,7 +41,7 @@ public class GamePlay extends JFrame {
     JTextArea chatArea = new JTextArea();
     JScrollPane chatScroll = new JScrollPane(chatArea);
 
-    public GamePlay() {
+    public GamePlay(String username) {
 
         // 메인 패널 설정(배경 사진)
         mainContainer.setBounds(0, 0, 1000, 700);
@@ -102,7 +108,7 @@ public class GamePlay extends JFrame {
 
         // 입력창 추가
         inputField.setBounds(250, 560, 400, 30);
-        inputField.setFont(font1);
+        inputField.setFont(font2);
         mainContainer.add(inputField);
 
         // 완료 버튼 추가
@@ -112,8 +118,14 @@ public class GamePlay extends JFrame {
         completeBtn.setBorderPainted(false);
         completeBtn.setFocusPainted(false);
         mainContainer.add(completeBtn);
-
         add(mainContainer);
+
+        // 리스너 설정
+        completeBtn.addActionListener(e -> sendMessage(username));
+        inputField.addActionListener(e -> sendMessage(username));
+
+        // 서버 연결
+        connectToServer(username);
 
         // 타이머 구현
         Timer timer = new Timer(1000, e -> {
@@ -137,8 +149,38 @@ public class GamePlay extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        new GamePlay();
+    private void connectToServer(String username) {
+        try {
+            Socket socket = new Socket("localhost", 8000);
+            out = new PrintWriter(socket.getOutputStream(), true);
+
+            // 서버로 메시지 읽기
+            new Thread(() -> {
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+                    String message;
+                    while ((message = in.readLine()) != null) {
+                        chatArea.append(message + "\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+            // 접속 메시지 전송
+            out.println(username + "님이 입장하셨습니다.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "서버에 연결할 수 없습니다.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+
+    private void sendMessage(String username) {
+        String message = inputField.getText().trim();
+        if (!message.isEmpty()) {
+            out.println(username + ": " + message);
+            inputField.setText("");
+        }
     }
 }
 
@@ -153,10 +195,6 @@ class RoundedBorder extends AbstractBorder {
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // 배경 그리기
-//        g2d.setColor(Color.WHITE);
-//        g2d.fillRoundRect(x, y, width - 1, height - 1, radius, radius);
 
         // border 그리기
         g2d.setColor(c.getForeground());
