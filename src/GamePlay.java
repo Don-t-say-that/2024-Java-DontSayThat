@@ -1,10 +1,10 @@
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class GamePlay extends JFrame {
@@ -40,6 +40,10 @@ public class GamePlay extends JFrame {
     // 채팅창
     JTextArea chatArea = new JTextArea();
     JScrollPane chatScroll = new JScrollPane(chatArea);
+
+    // 배경음악 재생을 위한 필드
+    private static Clip clip;
+    private static boolean isPlaying = false;
 
     public GamePlay(String username) {
 
@@ -127,6 +131,9 @@ public class GamePlay extends JFrame {
         // 서버 연결
         connectToServer(username);
 
+        // 배경음악 시작
+        startBackgroundMusic();
+
         // 타이머 구현
         Timer timer = new Timer(1000, e -> {
             if (timeRemaining > 0) {
@@ -137,6 +144,7 @@ public class GamePlay extends JFrame {
             } else {
                 ((Timer) e.getSource()).stop();
                 timerLabel.setText("시간 종료! 게임을 종료합니다.");
+                stopBackgroundMusic(); // 게임 종료 시 배경음악 멈추기
             }
         });
         timer.start();
@@ -183,6 +191,31 @@ public class GamePlay extends JFrame {
         if (!message.isEmpty()) {
             out.println(username + ": " + message);
             inputField.setText("");
+        }
+    }
+
+    private void startBackgroundMusic() {
+        if (!isPlaying) {
+            try {
+                File musicFile = new File("./music/BGM.wav"); // MP3를 WAV로 변환하여 사용
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioStream);
+                clip.loop(Clip.LOOP_CONTINUOUSLY); // 반복 재생
+                isPlaying = true;
+            } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                e.printStackTrace();
+                System.out.println("음악 재생 중 오류 발생");
+            }
+        }
+    }
+
+
+    // 배경음악 정지 메서드
+    private void stopBackgroundMusic() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+            isPlaying = false;
         }
     }
 }
