@@ -153,7 +153,6 @@ public class GamePlay extends JFrame {
         setVisible(true);
         setSize(1000, 700);
         setResizable(false);
-        setLocationRelativeTo(null); // 화면 중앙 배치
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 

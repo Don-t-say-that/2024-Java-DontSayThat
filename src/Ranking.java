@@ -45,7 +45,6 @@ public class Ranking extends JFrame {
         setTitle("랭킹");
         getContentPane().setBackground(Color.decode("#E0FBFC"));
         setSize(1000, 700);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }

@@ -104,7 +104,6 @@ public class SignUp extends JFrame{
         setLayout(null);
         add(panel);
         setSize(1000, 700);  // 프레임 크기 설정
-        setLocationRelativeTo(null);  // 화면 중앙에 배치
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
