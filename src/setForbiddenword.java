@@ -11,8 +11,11 @@ public class setForbiddenword extends JFrame {
     JLabel title = new JLabel("상대방 금칙어 정하기");
     JButton completeWordBtn = new RoundedButton("완료", 25);
     JTextField wordField = new JTextField();
+    String forbiddenWord;
+    String member_id;
+    setForbiddenword(String member_id) {
+        this.member_id = member_id;
 
-    setForbiddenword() {
         // 패널 설정
         panel.setLayout(null);
         panel.setBounds(300, 300, 400, 230);
@@ -24,7 +27,7 @@ public class setForbiddenword extends JFrame {
 
         // 금칙어 입력 필드
         wordField.setBounds(75, 60, 260, 30);
-
+        
         // 완료 버튼
         completeWordBtn.setBounds(145, 120, 100, 35);
         completeWordBtn.setFont(font1);
@@ -51,17 +54,17 @@ public class setForbiddenword extends JFrame {
         completeWordBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                forbiddenWord = wordField.getText().trim();  // 금칙어 입력 시 바로 갱신
                 setVisible(false);
-                String username = JOptionPane.showInputDialog("사용자 이름을 입력하세요:");
-                String forbiddenWord = wordField.getText().trim();
+                String username = member_id;
                 if (username != null && !username.trim().isEmpty()) {
-                    new GamePlay(username); // 채팅방 열기
+                    new GamePlay(username,forbiddenWord); // 채팅방 열기
                 }
             }
         });
     }
 
     public static void main(String[] args) {
-        new setForbiddenword();
+        new setForbiddenword("hyewon");
     }
 }

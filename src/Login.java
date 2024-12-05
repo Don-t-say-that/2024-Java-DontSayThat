@@ -69,7 +69,7 @@ public class Login extends JFrame {
                         if (rs.next()) {
                             JOptionPane.showMessageDialog(null, "로그인 성공!");
                             // 로그인이 성공하면 메인 메뉴로 이동하는 로직 추가 가능
-                            new Menu();
+                            new Menu(member_id);
                             setVisible(false); // 현재 창 닫기
                         } else {
                             JOptionPane.showMessageDialog(null, "로그인 실패! 아이디 또는 비밀번호를 확인하세요.");
