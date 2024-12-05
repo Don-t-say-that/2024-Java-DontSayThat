@@ -45,7 +45,6 @@ public class setForbiddenword extends JFrame {
         setLayout(null);
         add(panel);
         setSize(1000, 700);  // 프레임 크기 설정
-        setLocationRelativeTo(null);  // 화면 중앙에 배치
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -54,8 +53,9 @@ public class setForbiddenword extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 String username = JOptionPane.showInputDialog("사용자 이름을 입력하세요:");
+                String forbiddenWord = wordField.getText().trim();
                 if (username != null && !username.trim().isEmpty()) {
-                    new ChatRoom(username); // 채팅방 열기
+                    new GamePlay(username); // 채팅방 열기
                 }
             }
         });

@@ -37,7 +37,6 @@ public class GameOver extends JFrame {
         // Frame settings
         setTitle("게임오버");
         setSize(1000, 700);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 

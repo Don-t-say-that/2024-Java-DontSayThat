@@ -51,7 +51,6 @@ public class Start extends JFrame {
         setVisible(true);
         setSize(1000, 700);
         setResizable(false);
-        setLocationRelativeTo(null);
         panel.setBackground(Color.decode("#E0FBFC"));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

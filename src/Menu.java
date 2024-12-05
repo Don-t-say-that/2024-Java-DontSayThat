@@ -41,7 +41,6 @@ public class Menu extends JFrame {
         setVisible(true);
         setSize(1000, 700); // 프레임 크기
         setResizable(false);
-        setLocationRelativeTo(null); // 화면 중앙 배치
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         gameButton.addActionListener(new ActionListener() {
