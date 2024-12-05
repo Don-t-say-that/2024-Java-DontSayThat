@@ -1,6 +1,4 @@
-import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
@@ -36,9 +34,7 @@ public class GamePlay extends JFrame {
     JTextArea chatArea = new JTextArea();
     JScrollPane chatScroll = new JScrollPane(chatArea);
 
-    // 배경음악 재생을 위한 필드
-    private static Clip clip;
-    private static boolean isPlaying = false;
+
 
     public GamePlay(String username, String forbiddenWord) {
 
@@ -177,31 +173,6 @@ public class GamePlay extends JFrame {
         if (!message.isEmpty()) {
             out.println(username + ": " + message);
             inputField.setText("");
-        }
-    }
-
-    private void startBackgroundMusic() {
-        if (!isPlaying) {
-            try {
-                File musicFile = new File("./music/BGM.wav"); // MP3를 WAV로 변환하여 사용
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
-                clip = AudioSystem.getClip();
-                clip.open(audioStream);
-                clip.loop(Clip.LOOP_CONTINUOUSLY); // 반복 재생
-                isPlaying = true;
-            } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-                e.printStackTrace();
-                System.out.println("음악 재생 중 오류 발생");
-            }
-        }
-    }
-
-
-    // 배경음악 정지 메서드
-    private void stopBackgroundMusic() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-            isPlaying = false;
         }
     }
 }
